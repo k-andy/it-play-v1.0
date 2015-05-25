@@ -1,0 +1,18 @@
+<section>
+	<div class="page-header">
+		<h1>it's {{course.name}}</h1>
+	</div>
+	<ul>
+		<li ng-repeat="(key, category) in course.categories">
+			<a ng-href="#/category/{{course.$id}}/{{key}}">{{category.name}} </a>
+			<a><small ng-click="show = !show">expand</small></a>
+			<div class="jumbotron" ng-show="show">
+				<ul>
+					<li ng-repeat="lesson in category.lessons">
+						<a ng-href="#/lesson/{{courseId}}/{{category.$id}}/{{lesson.$id}}">{{lesson.name}}</a>
+					</li>
+				</ul>
+			</div>
+		</li>
+	</ul>
+</section>

@@ -1,0 +1,21 @@
+<nav class="navbar navbar-inverse">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<a class="navbar-brand" ng-href="#/">Home</a>
+		</div>
+
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav">
+				<li class="dropdown" ng-show="courses.length > 0">
+					<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Courses <span class="caret"></span></a>
+					<ul class="dropdown-menu" role="menu">
+						<li><a ng-href="#/course/{{course.$id}}" ng-repeat="course in courses">{{course.name}}</a></li>
+					</ul>
+				</li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a ng-href="#/admin">Admin</a></li>
+			</ul>
+		</div>
+	</div>
+</nav>

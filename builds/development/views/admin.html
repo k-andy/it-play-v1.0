@@ -1,0 +1,65 @@
+<section class="form-horizontal">
+	<div class="form-group">
+		<form class="form-inline" name="courseform" ng-submit="addCourse()" novalidate>
+			<label>add course
+				<input type="text" class="form-control" name="coursename" placeholder="Course name"
+				ng-model="coursename" ng-required="true">
+			</label>
+			<button type="submit" class="btn btn-default"
+			ng-disabled="courseform.$invalid">+</button>
+		</form>
+	</div>
+	<div class="form-group" ng-show="course">
+		<label>Course:
+			<select ng-model="course" ng-options="course.name for course in courses" ng-change="updateCetegories()">
+			</select>
+		</label>
+	</div>
+	<div class="form-group" ng-show="course">
+		<form class="form-inline" name="categoryform" ng-submit="addCetegory()" novalidate>
+			<label>add category
+				<input type="text" class="form-control" name="categoryname" placeholder="Category name"
+				ng-model="categoryname" ng-required="true">
+			</label>
+			<button type="submit" class="btn btn-default"
+			ng-disabled="categoryform.$invalid">+</button>
+		</form>
+	</div>
+	<div class="form-group" ng-show="category">
+		<label>Category:
+			<select ng-model="category" ng-options="category.name for category in categories" ng-change="updateLessons()">
+			</select>
+		</label>
+	</div>
+	<div class="form-group" ng-show="category">
+		<form class="form-horizontal" name="lessonform" ng-submit="addLesson()" novalidate>
+			<dl class="dl-horizontal">
+				<dt>
+					<label>add lesson
+						<input type="text" class="form-control" name="lessonname" placeholder="Lesson name"
+						ng-model="lessonname" ng-required="true">
+					</label>
+					<button type="submit" class="btn btn-default"
+					ng-disabled="lessonform.$invalid">+</button>
+				</dt>
+				<dd>
+					<textarea class="form-control" rows="20" cols="15" ng-model="lessonhtml" placeholder="Lesson html" ng-required="true"></textarea>
+				</dd>
+			</dl>
+		</form>
+	</div>
+	<div class="form-group" ng-show="lesson">
+		<dl class="dl-horizontal">
+			<dt>
+				<label>Lesson:
+					<select ng-model="lesson" ng-options="lesson.name for lesson in lessons">
+					</select>
+				</label>
+			</dt>
+			<dd>
+				<textarea class="form-control" rows="20" cols="15" ng-model="lesson.htmlText" ></textarea>
+				<div ng-bind-html="lesson.htmlText | html"></div>
+			</dd>
+		</dl>
+	</div>
+</section>

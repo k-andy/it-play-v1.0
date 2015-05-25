@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en" ng-app="itPlayApp">
+<head>
+	<meta charset="UTF-8">
+	<title>it-play v1.0</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<script src="js/lib/angular/angular.min.js"></script>
+	<script src="js/lib/angular/angular-route.min.js"></script>
+	<script src="js/lib/firebase.js"></script>
+	<script src="js/lib/angularfire.min.js"></script>
+	<script src="js/lib/jquery-1.11.3.min.js"></script>
+	<script src="js/lib/bootstrap.js"></script>
+	
+	<script src="js//app.js"></script>
+	
+	<script src="js/controllers/admin.js"></script>
+	<script src="js/controllers/header.js"></script>
+	<script src="js/controllers/courseContent.js"></script>
+	<script src="js/controllers/categoryContent.js"></script>
+	<script src="js/controllers/lesson.js"></script>
+	
+	<script src="js/directives/lessonDirective.js"></script>
+	
+	<script src="js/services/courses.js"></script>
+	<script src="js/services/categories.js"></script>
+	<script src="js/services/lessons.js"></script>
+</head>
+<body class="container">
+	<header ng-controller="HeaderController" ng-include="'views/header.html'">
+	</header>
+	<p>
+		<div class="container">
+			<main ng-view></main>
+		</div>
+	</p>
+	<footer ng-include="'views/footer.html'"></footer>
+</body>
+</html>
