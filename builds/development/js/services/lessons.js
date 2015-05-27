@@ -1,4 +1,4 @@
-itPlayApp.factory("LessonsFactory", ["$firebaseArray", 'ROOT_URL', function($firebaseArray, ROOT_URL) {
+itPlayApp.factory("LessonsFactory", function($firebaseArray, $firebaseObject, ROOT_URL) {
 	return {
 		lessons : function(courseId, categoryId) {
 			var ref = new Firebase(ROOT_URL + 'courses/' + courseId + '/categories/' + categoryId + '/lessons');
@@ -9,4 +9,4 @@ itPlayApp.factory("LessonsFactory", ["$firebaseArray", 'ROOT_URL', function($fir
 			return $firebaseObject(ref);
 		}
 	};
-}]);
+});

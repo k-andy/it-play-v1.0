@@ -3,6 +3,8 @@
 		<h1>it's {{category.name}}</h1>
 	</div>
 	<ul>
-		<lesson-directive></lesson-directive>
+		<li ng-repeat="(key, lesson) in category.lessons">
+			<a ng-href="#/lesson/{{courseId}}/{{category.$id}}/{{key}}">{{lesson.name}}</a>
+		</li>
 	</ul>
 </section>

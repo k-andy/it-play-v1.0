@@ -1,5 +1,6 @@
-itPlayApp.controller('AdminController', function($scope, $http, CoursesFactory, CategoriesFactory, LessonsFactory){
+itPlayApp.controller('AdminController', function($scope, $http, CoursesFactory, CategoriesFactory, LessonsFactory, LessonDetailsFactory, ROOT_URL){
 	$scope.courses = CoursesFactory.courses();
+	getLessonHtmlTemplate();
 
 	$scope.courses.$loaded().then(function(data) {
 		$scope.course = data[0];
@@ -13,6 +14,9 @@ itPlayApp.controller('AdminController', function($scope, $http, CoursesFactory, 
 
 					$scope.lessons.$loaded().then(function(data) {
 						$scope.lesson = data[0];
+						if ($scope.lesson) {
+							$scope.updateLessonDetails();
+						};
 					});
 				};
 			});
@@ -43,24 +47,30 @@ itPlayApp.controller('AdminController', function($scope, $http, CoursesFactory, 
 
 			$scope.lessons.$loaded().then(function(data) {
 				$scope.lesson = data[0];
+				if ($scope.lesson) {
+					$scope.updateLessonDetails();
+				};
 			});
 		});
 	};
 
 	$scope.addLesson = function() {
-		$scope.lessons.$add({
-			name: $scope.lessonname,
-			htmlText: $scope.lessonhtml
+		$scope.lessonDetails = LessonDetailsFactory.lessondetails();
+		$scope.lessonDetails.$add({
+			htmlText: $scope.lessonHtmlText
 		}).then(function(data){
-			$scope.lessonname = '';
-			$scope.lessonhtml = '';
-			$scope.lesson = $scope.lessons.$getRecord(data.key());
+			$scope.lessons.$add({
+				name: $scope.lessonname,
+				lessonDetails: data.key()
+			}).then(function(data){
+				$scope.lessonname = '';
+				$scope.lesson = $scope.lessons.$getRecord(data.key());
+			});
 		});
 	};
 
 	$scope.updateCetegories = function() {
 		$scope.categories = CategoriesFactory.categories($scope.course.$id);
-
 		$scope.categories.$loaded().then(function(data) {
 			$scope.category = $scope.categories[0];
 			if ($scope.category) {
@@ -68,18 +78,35 @@ itPlayApp.controller('AdminController', function($scope, $http, CoursesFactory, 
 
 				$scope.lessons.$loaded().then(function(data) {
 					$scope.lesson = data[0];
+					if ($scope.lesson) {
+						$scope.updateLessonDetails();
+					};
 				});
 			} else {
-				$scope.lessons = [];				
+				$scope.lessons = [];
 			};
 		});
 	};
 
 	$scope.updateLessons = function() {
 		$scope.lessons = LessonsFactory.lessons($scope.course.$id, $scope.category.$id);
-
 		$scope.lessons.$loaded().then(function(data) {
 			$scope.lesson = data[0];
+			if ($scope.lesson) {
+				$scope.updateLessonDetails();
+			};
+		});
+	};
+
+	$scope.updateLessonDetails = function() {
+		LessonDetailsFactory.getHtmlForLesson($scope.lesson.lessonDetails).$bindTo($scope, 'lessonHtml');
+	};
+
+	$scope.updateLesson = function() {
+		$scope.lessons.$save($scope.lessons.$indexFor($scope.lesson.$id));
+		$scope.lessons = LessonsFactory.lessons($scope.course.$id, $scope.category.$id);
+		$scope.lessons.$watch(function(event) {
+			$scope.lesson = $scope.lessons.$getRecord(event.key);
 		});
 	};
 
@@ -89,5 +116,11 @@ itPlayApp.controller('AdminController', function($scope, $http, CoursesFactory, 
 
 	function compare(a, b) {
 		return a.name.localeCompare(b.name);
+	};
+
+	function getLessonHtmlTemplate() {
+		$.get( "data/lessonHtmlTemplate.html", function( data ) {
+			$scope.lessonHtmlText = data;
+		});
 	};
 });

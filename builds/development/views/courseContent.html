@@ -3,16 +3,14 @@
 		<h1>it's {{course.name}}</h1>
 	</div>
 	<ul>
-		<li ng-repeat="(key, category) in course.categories">
-			<a ng-href="#/category/{{course.$id}}/{{key}}">{{category.name}} </a>
+		<li ng-repeat="(categoryKey, category) in course.categories">
+			<a ng-href="#/category/{{course.$id}}/{{categoryKey}}">{{category.name}} </a>
 			<a><small ng-click="show = !show">expand</small></a>
-			<div class="jumbotron" ng-show="show">
-				<ul>
-					<li ng-repeat="lesson in category.lessons">
-						<a ng-href="#/lesson/{{courseId}}/{{category.$id}}/{{lesson.$id}}">{{lesson.name}}</a>
-					</li>
-				</ul>
-			</div>
+			<ul>
+				<li ng-repeat="(lessonKey, lesson) in category.lessons">
+					<a ng-href="#/lesson/{{course.$id}}/{{categoryKey}}/{{lessonKey}}">{{lesson.name}}</a>
+				</li>
+			</ul>
 		</li>
 	</ul>
 </section>

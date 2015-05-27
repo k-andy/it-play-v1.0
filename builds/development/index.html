@@ -4,6 +4,7 @@
 	<meta charset="UTF-8">
 	<title>it-play v1.0</title>
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/admin.css">
 	<script src="js/lib/angular/angular.min.js"></script>
 	<script src="js/lib/angular/angular-route.min.js"></script>
 	<script src="js/lib/firebase.js"></script>
@@ -19,19 +20,16 @@
 	<script src="js/controllers/categoryContent.js"></script>
 	<script src="js/controllers/lesson.js"></script>
 	
-	<script src="js/directives/lessonDirective.js"></script>
-	
 	<script src="js/services/courses.js"></script>
 	<script src="js/services/categories.js"></script>
 	<script src="js/services/lessons.js"></script>
+	<script src="js/services/lessonDetails.js"></script>
 </head>
 <body class="container">
 	<header ng-controller="HeaderController" ng-include="'views/header.html'">
 	</header>
 	<p>
-		<div class="container">
 			<main ng-view></main>
-		</div>
 	</p>
 	<footer ng-include="'views/footer.html'"></footer>
 </body>

@@ -1,4 +1,4 @@
-<section class="form-horizontal">
+<section>
 	<div class="form-group">
 		<form class="form-inline" name="courseform" ng-submit="addCourse()" novalidate>
 			<label>add course
@@ -11,7 +11,7 @@
 	</div>
 	<div class="form-group" ng-show="course">
 		<label>Course:
-			<select ng-model="course" ng-options="course.name for course in courses" ng-change="updateCetegories()">
+			<select class="form-control" ng-model="course" ng-options="course.name for course in courses" ng-change="updateCetegories()">
 			</select>
 		</label>
 	</div>
@@ -27,39 +27,53 @@
 	</div>
 	<div class="form-group" ng-show="category">
 		<label>Category:
-			<select ng-model="category" ng-options="category.name for category in categories" ng-change="updateLessons()">
+			<select class="form-control" ng-model="category" ng-options="category.name for category in categories" ng-change="updateLessons()">
 			</select>
 		</label>
 	</div>
 	<div class="form-group" ng-show="category">
-		<form class="form-horizontal" name="lessonform" ng-submit="addLesson()" novalidate>
-			<dl class="dl-horizontal">
-				<dt>
-					<label>add lesson
-						<input type="text" class="form-control" name="lessonname" placeholder="Lesson name"
-						ng-model="lessonname" ng-required="true">
-					</label>
-					<button type="submit" class="btn btn-default"
-					ng-disabled="lessonform.$invalid">+</button>
-				</dt>
-				<dd>
-					<textarea class="form-control" rows="20" cols="15" ng-model="lessonhtml" placeholder="Lesson html" ng-required="true"></textarea>
-				</dd>
-			</dl>
+		<form class="form-inline" name="lessonform" ng-submit="addLesson()" novalidate>
+			<label>add lesson
+				<input type="text" class="form-control" name="lessonname" placeholder="Lesson name"
+				ng-model="lessonname" ng-required="true">
+			</label>
+			<button type="submit" class="btn btn-default"
+			ng-disabled="lessonform.$invalid">+</button>
+			<div ng-show="lessonname.length > 0">
+				<dl>
+					<dt>
+						<label>lesson html</label>
+					</dt>
+					<dd>
+						<textarea class="form-control" rows="20" ng-model="lessonHtml.htmlText" placeholder="Lesson html" ng-required="true"></textarea>
+					</dd>
+				</dl>
+			</div>
 		</form>
 	</div>
 	<div class="form-group" ng-show="lesson">
-		<dl class="dl-horizontal">
-			<dt>
-				<label>Lesson:
-					<select ng-model="lesson" ng-options="lesson.name for lesson in lessons">
-					</select>
-				</label>
-			</dt>
-			<dd>
-				<textarea class="form-control" rows="20" cols="15" ng-model="lesson.htmlText" ></textarea>
-				<div ng-bind-html="lesson.htmlText | html"></div>
-			</dd>
-		</dl>
+		<label>Lesson:
+			<select class="form-control" ng-model="lesson" ng-change="setLessonDetails()" ng-options="lesson.name for lesson in lessons">
+			</select>
+		</label>
+		<input type="text" class="form-control" placeholder="Lesson name"
+		ng-model="lesson.name">
+		<div>
+			<dl>
+				<dt>
+					<label>lesson html</label>
+				</dt>
+				<dd>
+					<textarea class="form-control" rows="20" ng-model="lessonHtml.htmlText"></textarea>
+				</dd>
+				<dd>
+					<button type="button" ng-click="updateLesson()" class="btn btn-default">update</button>
+				</dd>
+			</dl>
+		</div>
+	</div>
+	<div class="form-group" ng-show="lesson">
+		<label>lesson page look</label>
+		<div class="lessonHtmlContainer" ng-bind-html="lessonHtml.htmlText | html"></div>
 	</div>
 </section>
