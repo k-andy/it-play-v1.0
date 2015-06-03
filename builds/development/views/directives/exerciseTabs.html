@@ -1,0 +1,18 @@
+<ul class="nav nav-tabs">
+  <li ng-class="{active: tab == 'tests'}">
+    <a ng-click="tab = 'tests'">Tests</a>
+  </li>
+  <li ng-class="{active: tab == 'output'}">
+    <a ng-click="tab = 'output'">Output app</a>
+  </li>
+  <li ng-class="{active: tab == 'compile'}">
+    <a ng-click="tab = 'compile'">Compile app</a>
+  </li>
+</ul>
+<div class="tab-content">
+  <div ng-switch="tab">
+    <div ng-switch-when="tests" class="tab-pane" tests-tab></div>
+    <div ng-switch-when="output" class="tab-pane" compile-tab></div>
+    <div ng-switch-when="compile" class="tab-pane" output-tab></div>
+  </div>
+</div>

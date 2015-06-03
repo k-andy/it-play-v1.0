@@ -1,12 +1,12 @@
 itPlayApp.factory("LessonDetailsFactory", function($firebaseArray, $firebaseObject, ROOT_URL) {
 	return {
-		lessondetails : function() {
-			var ref = new Firebase(ROOT_URL + 'lessondetails');
-			return $firebaseArray(ref);
-		},
-		getHtmlForLesson : function(lessonDetailsId) {
-			var ref = new Firebase(ROOT_URL + 'lessondetails/' + lessonDetailsId);
+		lessonDetails : function(lessonDetailId) {
+			var ref = new Firebase(ROOT_URL + 'lessonDetails/' + lessonDetailId);
 			return $firebaseObject(ref);
+		},
+		deleteHtmlForLesson : function(lessonDetailsId) {
+			var ref = new Firebase(ROOT_URL + 'lessonDetails/' + lessonDetailsId);
+			$firebaseObject(ref).$remove()
 		}
 	};
 });

@@ -1,0 +1,24 @@
+<div class="container-fluid">
+	<div class="form-group">
+		<label>question:</label>
+		<textarea class="form-control" rows="5" placeholder="Test question" ng-required="true"></textarea>
+	</div>
+	<form class="form-horizontal" name="questionform" ng-submit="addQuestion()" novalidate>
+		<div class="form-group tests" ng-repeat="answer in answers">
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="input-group">
+						<span class="input-group-addon">
+							<input type="checkbox" ng-model="answer.correct"> Correct answer
+						</span>
+						<input type="text" class="form-control" placeholder="Answer" ng-required="true">
+						<button type="button" class="btn btn-default" ng-click="addAnswerFieldset()">+</button>
+						<button type="button" class="btn btn-danger" ng-click="removeChoice()">-</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<button type="submit" class="btn btn-default"
+		ng-disabled="questionform.$invalid">add question</button>
+	</form>
+</div>

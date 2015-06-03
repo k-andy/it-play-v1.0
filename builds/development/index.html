@@ -24,12 +24,17 @@
 	<script src="js/services/categories.js"></script>
 	<script src="js/services/lessons.js"></script>
 	<script src="js/services/lessonDetails.js"></script>
+
+	<script src="js/directives/exerciseTabs.js"></script>
+	<script src="js/directives/exerciseTabs/testsTab.js"></script>
+	<script src="js/directives/exerciseTabs/compileTab.js"></script>
+	<script src="js/directives/exerciseTabs/outputTab.js"></script>
 </head>
 <body class="container">
 	<header ng-controller="HeaderController" ng-include="'views/header.html'">
 	</header>
 	<p>
-			<main ng-view></main>
+		<main ng-view></main>
 	</p>
 	<footer ng-include="'views/footer.html'"></footer>
 </body>
