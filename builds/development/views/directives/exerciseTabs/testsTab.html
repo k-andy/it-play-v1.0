@@ -1,19 +1,23 @@
-<div class="container-fluid">
-	<div class="form-group">
-		<label>question:</label>
-		<textarea class="form-control" rows="5" placeholder="Test question" ng-required="true"></textarea>
-	</div>
+<div class="container-fluid tests">
+	<label>Questions:
+		<select class="form-control" ng-model="question" ng-options="question.question for question in questions">
+		</select>
+	</label>
 	<form class="form-horizontal" name="questionform" ng-submit="addQuestion()" novalidate>
-		<div class="form-group tests" ng-repeat="answer in answers">
+		<div class="form-group">
+			<label>question:</label>
+			<textarea class="form-control" rows="5" ng-model="question" placeholder="Test question" ng-required="true"></textarea>
+		</div>
+		<div class="form-group" ng-repeat="answer in answers">
 			<div class="row">
 				<div class="col-lg-6">
 					<div class="input-group">
 						<span class="input-group-addon">
 							<input type="checkbox" ng-model="answer.correct"> Correct answer
 						</span>
-						<input type="text" class="form-control" placeholder="Answer" ng-required="true">
+						<input type="text" ng-model="answer.answer" class="form-control" placeholder="Answer" ng-required="true">
 						<button type="button" class="btn btn-default" ng-click="addAnswerFieldset()">+</button>
-						<button type="button" class="btn btn-danger" ng-click="removeChoice()">-</button>
+						<button type="button" class="btn btn-danger" ng-click="removeAnswerFieldset()">-</button>
 					</div>
 				</div>
 			</div>

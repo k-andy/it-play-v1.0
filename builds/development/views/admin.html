@@ -11,7 +11,7 @@
 	</div>
 	<div class="form-group" ng-show="course">
 		<label>Course:
-			<select class="form-control" ng-model="course" ng-options="course.name for course in courses" ng-change="updateCetegories()">
+			<select class="form-control" ng-model="course" ng-options="course.name for course in courses" ng-change="updateCetegoriesSelect()">
 			</select>
 		</label>
 		<input type="text" class="form-control" placeholder="Course name"
@@ -31,7 +31,7 @@
 	</div>
 	<div class="form-group" ng-show="category">
 		<label>Category:
-			<select class="form-control" ng-model="category" ng-options="category.name for category in categories" ng-change="updateLessons()">
+			<select class="form-control" ng-model="category" ng-options="category.name for category in categories" ng-change="updateLessonsSelect()">
 			</select>
 		</label>
 		<input type="text" class="form-control" placeholder="Category name"
@@ -75,7 +75,7 @@
 					<label>lesson html</label>
 				</dt>
 				<dd>
-					<textarea class="form-control" rows="20" ng-model="lessonDetails.htmlText"></textarea>
+					<textarea class="form-control" rows="20" ng-model="lessonDetails.htmlText.length"></textarea>
 				</dd>
 			</dl>
 		</div>
@@ -84,7 +84,7 @@
 		<label>lesson page look</label>
 		<div class="lessonHtmlContainer" ng-bind-html="lessonDetails.htmlText | html"></div>
 	</div>
-	<div class="form-group">
+	<div class="form-group" ng-show="lesson">
 		<exercise-tabs></exercise-tabs>
 	</div>
 </section>

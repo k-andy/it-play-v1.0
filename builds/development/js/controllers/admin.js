@@ -1,4 +1,5 @@
-itPlayApp.controller('AdminController', function($scope, $http, $firebaseArray, CoursesFactory, CategoriesFactory, LessonsFactory, LessonDetailsFactory, ROOT_URL){
+itPlayApp.controller('AdminController', function($scope, $http, $firebaseArray, CoursesFactory, CategoriesFactory, 
+	LessonsFactory, LessonDetailsFactory, TestsFactory, ROOT_URL){
 	$scope.courses = CoursesFactory.courses();
 
 	$scope.courses.$loaded().then(function(data) {
@@ -27,23 +28,18 @@ itPlayApp.controller('AdminController', function($scope, $http, $firebaseArray, 
 	};
 
 	$scope.addLesson = function() {
-		var ref = new Firebase(ROOT_URL + 'lessonDetails');
-		$firebaseArray(ref).$add({
-			htmlText: $scope.newLessonHtmlText
-		}).then(function(data) {
-			$scope.lessons.$add({
-				name: $scope.lessonname,
-				lessonDetails: data.key()
-			}).then(function(data){
-				$scope.lessonname = '';
-				$scope.lesson = $scope.lessons.$getRecord(data.key());
-				$scope.updateLessonDetails();
-				getLessonHtmlTemplate();
-			});
+		$scope.lessons.$add({
+			name: $scope.lessonname
+		}).then(function(data){
+			LessonDetailsFactory.addLessonDetails(data.key(), $scope.newLessonHtmlText);
+			$scope.lessonname = '';
+			$scope.lesson = $scope.lessons.$getRecord(data.key());
+			$scope.updateLessonDetails();
+			getLessonHtmlTemplate();
 		});
 	};
 
-	$scope.updateCetegories = function() {
+	$scope.updateCetegoriesSelect = function() {
 		$scope.categories = CategoriesFactory.categories($scope.course.$id);
 		$scope.categories.$loaded().then(function(data) {
 			$scope.category = $scope.categories[0];
@@ -62,7 +58,7 @@ itPlayApp.controller('AdminController', function($scope, $http, $firebaseArray, 
 		});
 	};
 
-	$scope.updateLessons = function() {
+	$scope.updateLessonsSelect = function() {
 		$scope.lessons = LessonsFactory.lessons($scope.course.$id, $scope.category.$id);
 		$scope.lessons.$loaded().then(function(data) {
 			$scope.lesson = data[0];
@@ -73,22 +69,20 @@ itPlayApp.controller('AdminController', function($scope, $http, $firebaseArray, 
 	};
 
 	$scope.updateCourse = function() {
-		$scope.courses.$save($scope.course);
-		$scope.courses = CoursesFactory.courses();
-		$scope.courses.$watch(function(event) {
-			if($scope.course.$id === event.key){
-				$scope.course = $scope.courses.$getRecord(event.key);
-			}
+		$scope.courses.$save($scope.course).then(function(ref) {
+			$scope.courses = CoursesFactory.courses();
+			$scope.courses.$loaded().then(function(data) {
+				$scope.course = $scope.courses.$getRecord(ref.key());
+			});
 		});
 	};
 
 	$scope.updateCategory = function() {
-		$scope.categories.$save($scope.category);
-		$scope.categories = CategoriesFactory.categories($scope.course.$id);
-		$scope.categories.$watch(function(event) {
-			if($scope.category.$id === event.key){
-				$scope.category = $scope.categories.$getRecord(event.key);
-			}
+		$scope.categories.$save($scope.category).then(function(ref) {
+			$scope.categories = CategoriesFactory.categories($scope.course.$id);
+			$scope.categories.$loaded().then(function(data) {
+				$scope.category = $scope.categories.$getRecord(ref.key());
+			});
 		});
 	};
 
@@ -165,19 +159,30 @@ itPlayApp.controller('AdminController', function($scope, $http, $firebaseArray, 
 
 	$scope.updateLessonDetails = function() {
 		if ($scope.lesson) {
-			$scope.lessonDetails = LessonDetailsFactory.lessonDetails($scope.lesson.lessonDetails);
+			$scope.lessonDetails = LessonDetailsFactory.getLessonDetails($scope.lesson.$id);
+			// $scope.questions = [];
+			// var questions = TestsFactory.testsForLesson($scope.course.$id, $scope.category.$id, $scope.lesson.$id);
+			// questions.$loaded(function(data){
+			// 	angular.forEach(questions, function(value, key) {
+			// 		var test = TestsFactory.test(value.test);
+			// 		test.$loaded(function(ref){
+			// 			$scope.questions.push(test);
+			// 		});
+			// 	});
+			// 	$scope.question = $scope.questions[0];
+			// });
 		} else {
 			$scope.lessonDetails = null;
 		}
 	};
 
-	$scope.courses.$watch(function() {
-		$scope.courses.sort(compare);
-	});
+	// $scope.courses.$watch(function(event) {
+	// 	$scope.courses.sort(compare);
+	// });
 
-	function compare(a, b) {
-		return a.name.localeCompare(b.name);
-	};
+	// function compare(a, b) {
+	// 	return a.name.localeCompare(b.name);
+	// };
 
 	function getLessonHtmlTemplate() {
 		$.get( "data/lessonHtmlTemplate.html", function(data) {
