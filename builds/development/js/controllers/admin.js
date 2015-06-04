@@ -99,7 +99,7 @@ itPlayApp.controller('AdminController', function($scope, $http, $firebaseArray, 
 	$scope.deleteCourse = function() {
 		angular.forEach($scope.categories, function(value, key) {
 			angular.forEach(value.lessons, function(value, key) {
-				LessonDetailsFactory.deleteHtmlForLesson(value.lessonDetails);
+				LessonDetailsFactory.deleteHtmlForLesson(key);
 			});
 		});
 
@@ -111,7 +111,7 @@ itPlayApp.controller('AdminController', function($scope, $http, $firebaseArray, 
 
 	$scope.deleteCategory = function() {
 		angular.forEach($scope.category.lessons, function(value, key) {
-			LessonDetailsFactory.deleteHtmlForLesson(value.lessonDetails);
+			LessonDetailsFactory.deleteHtmlForLesson(key);
 		});
 		$scope.categories.$remove($scope.category).then(function(ref) {
 			$scope.category = $scope.categories[0];
@@ -120,7 +120,7 @@ itPlayApp.controller('AdminController', function($scope, $http, $firebaseArray, 
 	};
 
 	$scope.deleteLesson = function() {
-		LessonDetailsFactory.deleteHtmlForLesson($scope.lesson.lessonDetails);
+		LessonDetailsFactory.deleteHtmlForLesson($scope.lesson.$id);
 		$scope.lessons.$remove($scope.lesson).then(function(ref) {
 			$scope.lesson = $scope.lessons[0];
 			$scope.updateLessonDetails();

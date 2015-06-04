@@ -33,6 +33,6 @@ itPlayApp.factory("TestsFactory", function($firebaseArray, $firebaseObject, Less
 		test: test,
 		tests: tests,
 		testAnswers : testAnswers,
-		testsForLesson : testsForLesson
+		addTests : addTests
 	}
 });
