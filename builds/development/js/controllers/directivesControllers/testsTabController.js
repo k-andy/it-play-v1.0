@@ -1,5 +1,14 @@
 itPlayApp.controller('TestsTabController', function($scope, LessonsFactory, TestsFactory){
 	$scope.answers = [{answer: '', correct: false}];
+	$scope.$on('lesson_set', function(event) {
+		$scope.questions = TestsFactory.tests($scope.lesson.$id);
+		$scope.questions.$loaded(function(data){
+			$scope.question = $scope.questions[0];
+			if ($scope.question) {
+				$scope.updateQuestionsSelect();
+			}
+		});
+	});
 
 	$scope.addAnswerFieldset = function() {
 		$scope.answers.push({answer: '', correct: false});
@@ -11,33 +20,42 @@ itPlayApp.controller('TestsTabController', function($scope, LessonsFactory, Test
 	};
 
 	$scope.addQuestion = function() {
-		var tests = TestsFactory.tests($scope.lesson.$id);
-
-		tests.$add({
-			question: $scope.question
+		TestsFactory.tests($scope.lesson.$id).$add({
+			questionText: $scope.questionText,
+			answers: $scope.answers
 		}).then(function(data){
-			var answers = TestsFactory.testAnswers($scope.lesson.$id, data.key());
-			angular.forEach($scope.answers, function(value, key) {
-				answers.$add({
-					answer: value.answer,
-					correct: value.correct
-				});
+			var key = data.key();
+			$scope.questions = TestsFactory.tests($scope.lesson.$id);
+			$scope.questions.$loaded(function(data) {
+				$scope.question = $scope.questions.$getRecord(key);
+				$scope.updateQuestionsSelect();
 			});
 		});
 	};
 	
+	$scope.deleteQuestion = function() {
+		$scope.questions.$remove($scope.question).then(function(data){
+			$scope.question = $scope.questions[0];
+			$scope.updateQuestionsSelect();
+		});
+	};
+	
+	$scope.updateQuestionsSelect = function() {
+		if ($scope.question) {
+			$scope.questionText = $scope.question.questionText;
+			$scope.answers = $scope.question.answers;
+		} else {
+			$scope.questionText = '';
+			$scope.answers = [{answer: '', correct: false}];
+		}
+	};
+	
 	$scope.updateQuestion = function() {
-		var tests = TestsFactory.tests($scope.lesson.$id);
-
-		tests.$add({
-			question: $scope.question
-		}).then(function(data){
-			var answers = TestsFactory.testAnswers($scope.lesson.$id, data.key());
-			angular.forEach($scope.answers, function(value, key) {
-				answers.$add({
-					answer: value.answer,
-					correct: value.correct
-				});
+		$scope.questions.$save($scope.question).then(function(ref) {
+			$scope.questions = TestsFactory.tests($scope.lesson.$id);
+			$scope.questions.$loaded().then(function(data) {
+				$scope.question = $scope.questions.$getRecord(ref.key());
+				$scope.updateQuestionsSelect();
 			});
 		});
 	};

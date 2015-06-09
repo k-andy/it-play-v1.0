@@ -1,5 +1,5 @@
 itPlayApp.controller('AdminController', function($scope, $http, $firebaseArray, CoursesFactory, CategoriesFactory, 
-	LessonsFactory, LessonDetailsFactory, TestsFactory, ROOT_URL){
+	LessonsFactory, LessonDetailsFactory, ROOT_URL){
 	$scope.courses = CoursesFactory.courses();
 
 	$scope.courses.$loaded().then(function(data) {
@@ -149,6 +149,7 @@ itPlayApp.controller('AdminController', function($scope, $http, $firebaseArray, 
 				$scope.lesson = data[0];
 				if ($scope.lesson) {
 					$scope.updateLessonDetails();
+					$scope.$broadcast('lesson_set', {});
 				}
 				getLessonHtmlTemplate();
 			});
@@ -158,22 +159,7 @@ itPlayApp.controller('AdminController', function($scope, $http, $firebaseArray, 
 	};
 
 	$scope.updateLessonDetails = function() {
-		if ($scope.lesson) {
-			$scope.lessonDetails = LessonDetailsFactory.getLessonDetails($scope.lesson.$id);
-			// $scope.questions = [];
-			// var questions = TestsFactory.testsForLesson($scope.course.$id, $scope.category.$id, $scope.lesson.$id);
-			// questions.$loaded(function(data){
-			// 	angular.forEach(questions, function(value, key) {
-			// 		var test = TestsFactory.test(value.test);
-			// 		test.$loaded(function(ref){
-			// 			$scope.questions.push(test);
-			// 		});
-			// 	});
-			// 	$scope.question = $scope.questions[0];
-			// });
-		} else {
-			$scope.lessonDetails = null;
-		}
+		$scope.lessonDetails = LessonDetailsFactory.getLessonDetails($scope.lesson.$id);
 	};
 
 	// $scope.courses.$watch(function(event) {

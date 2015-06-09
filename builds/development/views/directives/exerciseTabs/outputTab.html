@@ -1,1 +1,31 @@
-<div>OUTPUT</div>
+<div class="container-fluid outputs">
+	<div class="form-group" ng-show="exercises.length > 0">
+		<label>Exercises:
+			<select class="form-control" ng-model="exercise" ng-options="exercise.exerciseText for exercise in exercises"
+			ng-change="updateExercisesSelect()">
+		</select>
+	</label>
+	<button type="button" ng-click="deleteExercise()" class="btn btn-danger">delete exercise</button>
+</div>
+<form class="form-horizontal" name="exerciseform" ng-submit="addExercise()" novalidate>
+	<div class="form-group">
+		<label>exercise:</label>
+		<textarea class="form-control" rows="5" ng-model="exerciseText" placeholder="Exercise text" ng-required="true"></textarea>
+	</div>
+	<div class="form-group" ng-repeat="output in outputs">
+		<div class="row">
+			<div class="col-lg-6">
+				<div class="input-group">
+					<div class="input-group-addon">output line</div>
+					<input type="text" ng-model="output.output" class="form-control" placeholder="Output line" ng-required="true">
+					<button type="button" class="btn btn-default" ng-click="addOutputFieldset()">+</button>
+					<button type="button" class="btn btn-danger" ng-click="removeOutputFieldset()">-</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<button type="submit" class="btn btn-default"
+	ng-disabled="exerciseform.$invalid">add exercise</button>
+	<button type="button" ng-click="updateExercise()" class="btn btn-primary">update exercise</button>
+</form>
+</div>
