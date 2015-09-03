@@ -162,14 +162,6 @@ itPlayApp.controller('AdminController', function($scope, $http, $firebaseArray, 
 		$scope.lessonDetails = LessonDetailsFactory.getLessonDetails($scope.lesson.$id);
 	};
 
-	// $scope.courses.$watch(function(event) {
-	// 	$scope.courses.sort(compare);
-	// });
-
-	// function compare(a, b) {
-	// 	return a.name.localeCompare(b.name);
-	// };
-
 	function getLessonHtmlTemplate() {
 		$.get( "data/lessonHtmlTemplate.html", function(data) {
 			$scope.newLessonHtmlText = data;
